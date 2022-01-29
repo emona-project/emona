@@ -1,0 +1,9 @@
+Building Emona
+
+See doc/readme-qt.rst for instructions on building Emona-Qt,
+the intended-for-end-users, nice-graphical-interface, reference
+implementation of Emona.
+
+See doc/build-*.txt for instructions on building emonad,
+the intended-for-services, no-graphical-interface, reference
+implementation of Emona.

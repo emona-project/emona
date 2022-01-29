@@ -1,0 +1,34 @@
+src/*.exe
+src/emona
+src/emonad
+src/test_emona
+.*.swp
+*.*~*
+*.bak
+*.rej
+*.orig
+*.o
+*.patch
+.emona
+
+# Compilation and Qt preprocessor part
+*.qm
+Makefile
+emona-qt
+Emona-Qt.app
+
+# Unit-tests
+Makefile.test
+emona-qt_test
+
+# Resources cpp
+qrc_*.cpp
+
+# Qt creator
+*.pro.user
+
+# Mac specific
+.DS_Store
+build
+
+!src/leveldb*/Makefile
