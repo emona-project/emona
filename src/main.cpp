@@ -35,7 +35,7 @@ CTxMemPool mempool;
 unsigned int nTransactionsUpdated = 0;
 
 map<uint256, CBlockIndex*> mapBlockIndex;
-uint256 hashGenesisBlock("0x50747d6e508f42ffec6b3dea293f302038dfeb59be596ac598311dfdbfd44c4f");
+uint256 hashGenesisBlock("0xf5b9690e0a3d2d56bc6ddab6f21adfd1805d84d544a86eca107915d2f72508ba");
 static CBigNum bnProofOfWorkLimit(~uint256(0) >> 20); // Emona: starting difficulty is 1 / 2^12
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
@@ -1087,7 +1087,7 @@ uint256 static GetOrphanRoot(const CBlockHeader* pblock)
 
 int64 static GetBlockValue(int nHeight, int64 nFees)
 {
-    int64 nSubsidy = 20 * COIN;
+    int64 nSubsidy = 1 * COIN;
 
     // Subsidy is cut in half every 840000 blocks, which will occur approximately every 4 years
     nSubsidy >>= (nHeight / 262800); // Emona: 262,8k blocks in ~1 year
@@ -1096,7 +1096,7 @@ int64 static GetBlockValue(int nHeight, int64 nFees)
 }
 
 static const int64 nTargetTimespan = 1 * 24 * 60 * 60; // Emona: 1 days
-static const int64 nTargetSpacing = 2 * 60; // Emona: 2 minutes
+static const int64 nTargetSpacing = 0.25 * 60; // Emona: 15 second
 static const int64 nInterval = nTargetTimespan / nTargetSpacing;
 
 //
@@ -2742,11 +2742,11 @@ bool LoadBlockIndex()
 {
     if (fTestNet)
     {
-        pchMessageStart[0] = 0xf1;
-        pchMessageStart[1] = 0xc2;
-        pchMessageStart[2] = 0xb6;
+        pchMessageStart[0] = 0xf4;
+        pchMessageStart[1] = 0xc6;
+        pchMessageStart[2] = 0xb4;
         pchMessageStart[3] = 0xd2;
-        hashGenesisBlock = uint256("0x4dc0034c28f6e02950e16874fd8d349f184c4be7e3b1e639467f6f257d33e33f");
+        hashGenesisBlock = uint256("0x4e0ac139dc24ce931dcdbfc29e3713eadcb1e9720d103d7f6cac98ab827070fd");
     }
 
     //
@@ -2784,23 +2784,22 @@ bool InitBlockIndex() {
         txNew.vin.resize(1);
         txNew.vout.resize(1);
         txNew.vin[0].scriptSig = CScript() << 486604799 << CBigNum(4) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
-        txNew.vout[0].nValue = 20 * COIN;
-        txNew.vout[0].scriptPubKey = CScript() << ParseHex("040184710fa689ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9") << OP_CHECKSIG;
+        txNew.vout[0].nValue = 1 * COIN;
+        txNew.vout[0].scriptPubKey = CScript() << ParseHex("043eb723f28b77bc80d9a3a5a95844b3b82f4556f73d1e846cba06233660eababd931ab173197770a04be7d43ca450414ee4ae7aee0813d8b995c72150627b9deb") << OP_CHECKSIG;
         CBlock block;
         block.vtx.push_back(txNew);
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1317972665;
+        block.nTime    = 1645108052;
         block.nBits    = 0x1e0ffff0;
-        block.nNonce   = 2085136001;
+        block.nNonce   = 2085605264;
 
         if (fTestNet)
         {
-            block.nTime    = 1643308231;
-            block.nNonce   = 385769800;
+            block.nTime    = 1645107993;
+            block.nNonce   = 386734170;
         }
-
 
 if (false && block.GetHash() != hashGenesisBlock)
         {
@@ -2849,13 +2848,12 @@ if (false && block.GetHash() != hashGenesisBlock)
 
 
 
-
         //// debug print
         uint256 hash = block.GetHash();
         printf("%s\n", hash.ToString().c_str());
         printf("%s\n", hashGenesisBlock.ToString().c_str());
         printf("%s\n", block.hashMerkleRoot.ToString().c_str());
-        assert(block.hashMerkleRoot == uint256("0x14e6e66194739a460ffe71fe9aa2b637cc2d7a8f275019fb3ac9417bc13ed52d"));
+        assert(block.hashMerkleRoot == uint256("0xb1ca68e0136f1fa45063743c71f2d228baab6ef14ae8514c90190cac5c35e68d"));
         block.print();
         assert(hash == hashGenesisBlock);
 
@@ -3128,7 +3126,7 @@ bool static AlreadyHave(const CInv& inv)
 // The message start string is designed to be unlikely to occur in normal data.
 // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
 // a large 4-byte int at any alignment.
-unsigned char pchMessageStart[4] = { 0xfa, 0xc3, 0xba, 0xd3 }; // Emona: increase each by adding 2 to bitcoin's value.
+unsigned char pchMessageStart[4] = { 0xfb, 0xc2, 0xbc, 0xd2 }; // Emona: increase each by adding 2 to bitcoin's value.
 
 
 void static ProcessGetData(CNode* pfrom)
